@@ -38,15 +38,9 @@ USE_TZ = True
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
 # DATABASES
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#databases
-{% if cookiecutter.use_docker == "y" -%}
-DATABASES = {"default": env.db("DATABASE_URL")}
-{%- else %}
 DATABASES = {
     "default": env.db("DATABASE_URL", default="postgres://{% if cookiecutter.windows == 'y' %}localhost{% endif %}/{{cookiecutter.project_slug}}"),
 }
-{%- endif %}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # URLS
@@ -137,9 +131,6 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
 {%- if cookiecutter.use_drf == 'y' %}
     "corsheaders.middleware.CorsMiddleware",
-{%- endif %}
-{%- if cookiecutter.use_whitenoise == 'y' %}
-    "whitenoise.middleware.WhiteNoiseMiddleware",
 {%- endif %}
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
